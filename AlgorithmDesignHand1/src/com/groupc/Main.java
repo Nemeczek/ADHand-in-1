@@ -1,11 +1,12 @@
 /**
  * Created by Stelios on 24/8/2015.
  */
+package com.groupc;
 import java.util.*;
 import java.io.*;
 import java.lang.System;
 
-public class main {
+public class Main {
 
        private static String[] ReadFile(String path) throws IOException
        {
@@ -20,6 +21,8 @@ public class main {
 
        public static void main(String [] args) throws IOException
        {
+          // Parser parser = new Parser(args[0]);
+           //Input input = parser.Parse();
            String[] fileLines = ReadFile(args[0]);
            int n = 0;
            for (int i=0 ; i < fileLines.length ; i++){
@@ -31,6 +34,9 @@ public class main {
            if (n==0){
                System.out.println("Number n missing from config file");
            }
+
+
+
            //reading names for fun
            String [] mNames = new String[n];
            String [] wNames = new String[n];
