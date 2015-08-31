@@ -111,29 +111,33 @@ public class main {
 
            while (!unmatched.empty()) {
                int guy = unmatched.peek();
-                if (guy>=0) {
-                    while (propose[guy] < n) {
-                        if (wMatches[mprefs[guy][propose[guy]]] == -1) {
-                            wMatches[mprefs[guy][propose[guy]]] = guy;
-                            mMatches[guy] = mprefs[guy][propose[guy]];
-                            wMatches[mprefs[guy][propose[guy]]] = guy;
-                            unmatched.pop();
-                            break;
-                        } else if (invertedWprefs[mprefs[guy][propose[guy]]][guy] < invertedWprefs[mprefs[guy][propose[guy]]][wMatches[mprefs[guy][propose[guy]]]]) {
-                            unmatched.pop();
-                            unmatched.push(wMatches[propose[guy]]);
-                            wMatches[mprefs[guy][propose[guy]]] = guy;
-                            mMatches[guy] = propose[guy];
-                            break;
-                        }
-                        propose[guy]++;
-                    }
-                }
+               if (guy<0) break;
+               int nextGirlInMPrefs = propose[guy];
+               while (nextGirlInMPrefs<n){
+                   int womanHeWantsNow = mprefs[guy][nextGirlInMPrefs];
+                   if (wMatches[womanHeWantsNow]==-1) {
+                       wMatches[womanHeWantsNow] = guy;
+                       mMatches[guy] = womanHeWantsNow;
+                       wMatches[womanHeWantsNow] = guy;
+                       unmatched.pop();
+                       break;
+                   }else if(invertedWprefs[guy][womanHeWantsNow] < invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]) {
+                       unmatched.pop();
+                       unmatched.push(wMatches[womanHeWantsNow]);
+                       wMatches[invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]] = -1;
+                       wMatches[womanHeWantsNow] = guy;
+                       mMatches[guy] = womanHeWantsNow;
+                       break;
+                   }else{
+                       
+                   }
+                   propose[guy]++;
+               }
 
            }
            for (int i=0;i<n;i++){
-               //System.out.println( i + " -- " + mMatches[i]);
-               System.out.println(mNames[i] + " -- " + wNames[mMatches[i]]);
+               System.out.println( i + " -- " + mMatches[i]);
+               //System.out.println(mNames[i] + " -- " + wNames[mMatches[i]]);
            }
        };
 }
