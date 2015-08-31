@@ -116,12 +116,12 @@ public class main {
                while (nextGirlInMPrefs<n){
                    int womanHeWantsNow = mprefs[guy][nextGirlInMPrefs];
                    if (wMatches[womanHeWantsNow]==-1) {
-                       wMatches[womanHeWantsNow] = guy;
                        mMatches[guy] = womanHeWantsNow;
                        wMatches[womanHeWantsNow] = guy;
                        unmatched.pop();
                        break;
                    }else if(invertedWprefs[guy][womanHeWantsNow] < invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]) {
+                       System.out.println(womanHeWantsNow + " prefers " + guy + " over " + invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]);
                        unmatched.pop();
                        unmatched.push(wMatches[womanHeWantsNow]);
                        wMatches[invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]] = -1;
@@ -129,15 +129,16 @@ public class main {
                        mMatches[guy] = womanHeWantsNow;
                        break;
                    }else{
-                       
+
                    }
                    propose[guy]++;
+                   nextGirlInMPrefs = propose[guy];
                }
 
            }
            for (int i=0;i<n;i++){
-               System.out.println( i + " -- " + mMatches[i]);
-               //System.out.println(mNames[i] + " -- " + wNames[mMatches[i]]);
+               //System.out.println( i + " -- " + mMatches[i]);
+               System.out.println(mNames[i] + " -- " + wNames[mMatches[i]]);
            }
        };
 }
