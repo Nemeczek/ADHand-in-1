@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.util.Objects;
 import java.util.Scanner;
 
-/** Class GaleShapley **/
 public class GaleShapley
 {
     private int N, engagedCount;
@@ -16,7 +15,6 @@ public class GaleShapley
     private String[] womenPartner;
     private boolean[] menEngaged;
 
-    /** Constructor **/
     public GaleShapley(String[] m, String[] w, String[][] mp, String[][] wp) throws FileNotFoundException {
         N = mp.length;
         engagedCount = 0;
@@ -34,27 +32,21 @@ public class GaleShapley
     }
     /** function to calculate all matches **/
     private void calcMatches() throws FileNotFoundException {
-        while (engagedCount < N)
-        {
+        while (engagedCount < N){
             int free;
             for (free = 0; free < N; free++)
                 if (!menEngaged[free])
                     break;
-
-            for (int i = 0; i < N && !menEngaged[free]; i++)
-            {
+            for (int i = 0; i < N && !menEngaged[free]; i++){
                 int index = womenIndexOf(menPref[free][i]);
-                if (womenPartner[index] == null)
-                {
+                if (womenPartner[index] == null){
                     womenPartner[index] = men[free];
                     menEngaged[free] = true;
                     engagedCount++;
                 }
-                else
-                {
+                else{
                     String currentPartner = womenPartner[index];
-                    if (morePreference(currentPartner, men[free], index))
-                    {
+                    if (morePreference(currentPartner, men[free], index)){
                         womenPartner[index] = men[free];
                         menEngaged[free] = true;
                         menEngaged[menIndexOf(currentPartner)] = false;
@@ -69,10 +61,8 @@ public class GaleShapley
         }
     }
     /** function to check if women prefers new partner over old assigned partner **/
-    private boolean morePreference(String curPartner, String newPartner, int index)
-    {
-        for (int i = 0; i < N; i++)
-        {
+    private boolean morePreference(String curPartner, String newPartner, int index){
+        for (int i = 0; i < N; i++){
             if (womenPref[index][i].equals(newPartner))
                 return true;
             if (womenPref[index][i].equals(curPartner))
@@ -81,16 +71,14 @@ public class GaleShapley
         return false;
     }
     /** get men index **/
-    private int menIndexOf(String str)
-    {
+    private int menIndexOf(String str){
         for (int i = 0; i < N; i++)
             if (men[i].equals(str))
                 return i;
         return -1;
     }
     /** get women index **/
-    private int womenIndexOf(String str)
-    {
+    private int womenIndexOf(String str){
         for (int i = 0; i < N; i++)
             if (women[i].equals(str))
                 return i;
@@ -102,18 +90,13 @@ public class GaleShapley
         System.setOut(out);
         System.out.println("Gale Shapley Marriage Algorithm\n");
         System.out.println("Couples are : ");
-        for (int i = 0; i < N; i++)
-        {
+        for (int i = 0; i < N; i++){
             System.out.println(womenPartner[i] + " " + women[i]);
         }
     }
 
     public static Object[] scanner(String filename) {
-
-        // the file
         File file = new File(filename);
-
-        // my datastructures
         String[] data = null;
         String[] men = null;
         String[] women = null;
@@ -121,37 +104,23 @@ public class GaleShapley
         String[][] womenPref = null;
         int n = 0;
         int dataCount = 0;
-
         try {
-
             Scanner sc = new Scanner(file);
-
             while (sc.hasNextLine()) {
                 String i = sc.nextLine();
-
-                // getting the "n" value
                 if (i.startsWith("n")) {
                     n = Integer.parseInt(i.substring(2, i.length()));
-
                     men = new String[n];
                     women = new String[n];
                     menPref = new String[n][n];
                     womenPref = new String[n][n];
                     data = new String[n * 4];
-
                 }
-
                 if (i.matches("\\d.+")) {
                     data[dataCount] = i;
                     dataCount +=1;
                 }
-
             }
-
-            // ----------------------
-            // creating of arrays
-            // ----------------------
-
             Integer menCount = 0;
             Integer womCount = 0;
             Integer mpCount = 0;
@@ -159,19 +128,16 @@ public class GaleShapley
 
             // man/women name arrays
             for (int i=0; i<(n*4); i++) {
-
                 if (i % 2 == 0 && i < ((n * 4) / 2)) {
                     // ITS A BOY!
                     men[menCount] = data[i].split("\\s+")[0];
                     menCount += 1;
                 }
-
                 if (i % 2 != 0 && i < ((n * 4) / 2)) {
                     // ITS A GIRL!
                     women[womCount] = data[i].split("\\s+")[0];
                     womCount += 1;
                 }
-
                 if (i % 2 == 0 && i >= n * 2) {
                     // men prefs
                     for (int j=0; j<n; j++) {
@@ -179,17 +145,14 @@ public class GaleShapley
                     }
                     mpCount += 1;
                 }
-
                 if (i % 2 != 0 && i >= n * 2) {
                     // women prefs
                     for (int k=0; k<n; k++) {
                         womenPref[wpCount][k] = data[i].split("\\s+")[k+1];
                     }
                     wpCount += 1;
-
                 }
             }
-
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -206,12 +169,10 @@ public class GaleShapley
 
         if (0 < args.length) {
             Object[] results = scanner(args[0]);
-
             String[] m;
             String[] w;
             String[][] mp;
             String[][] wp;
-
             m = (String[]) results[0];
             w = (String[]) results[1];
             mp = (String[][]) results[2];
@@ -219,11 +180,9 @@ public class GaleShapley
 
             GaleShapley gs = new GaleShapley(m, w, mp, wp);
         }
-
         else {
             System.out.println("Provide filepath as input (string)\n");
             System.out.println("Terminating....");
-
         }
     }
 }
