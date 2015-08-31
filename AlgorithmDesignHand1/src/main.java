@@ -92,6 +92,7 @@ public class main {
            //create table of proposed girls
            Integer[] propose = new Integer[n];
            //fill it with zeroes
+           //it means the number of the girl in the guy's prefs
            for (int i=0;i<n;i++){
                    propose[i]=0;
            }
@@ -110,22 +111,24 @@ public class main {
 
            while (!unmatched.empty()) {
                int guy = unmatched.peek();
-
-               while (propose[guy]<n){
-                   if (wMatches[mprefs[guy][propose[guy]]]==-1) {
-                       wMatches[mprefs[guy][propose[guy]]] = guy;
-                       mMatches[guy] = wMatches[mprefs[guy][propose[guy]]];
-                       unmatched.pop();
-                       break;
-                   }else if(invertedWprefs[propose[guy]][guy] < invertedWprefs[propose[guy]][wMatches[propose[guy]]]) {
-                       unmatched.pop();
-                       unmatched.push(wMatches[propose[guy]]);
-                       wMatches[propose[guy]] = guy;
-                       mMatches[guy] = propose[guy];
-                       break;
-                   }
-                   propose[guy]++;
-               }
+                if (guy>=0) {
+                    while (propose[guy] < n) {
+                        if (wMatches[mprefs[guy][propose[guy]]] == -1) {
+                            wMatches[mprefs[guy][propose[guy]]] = guy;
+                            mMatches[guy] = mprefs[guy][propose[guy]];
+                            wMatches[mprefs[guy][propose[guy]]] = guy;
+                            unmatched.pop();
+                            break;
+                        } else if (invertedWprefs[mprefs[guy][propose[guy]]][guy] < invertedWprefs[mprefs[guy][propose[guy]]][wMatches[mprefs[guy][propose[guy]]]]) {
+                            unmatched.pop();
+                            unmatched.push(wMatches[propose[guy]]);
+                            wMatches[mprefs[guy][propose[guy]]] = guy;
+                            mMatches[guy] = propose[guy];
+                            break;
+                        }
+                        propose[guy]++;
+                    }
+                }
 
            }
            for (int i=0;i<n;i++){
