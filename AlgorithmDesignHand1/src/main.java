@@ -56,7 +56,7 @@ public class main {
                    String [] tempStr = fileLines[i].substring(fileLines[i].lastIndexOf(":")+2).split(" ");
                    //System.out.printf(wNames[(j - 1)/2] + " woman");
                    for (int k=0 ; k<n ; k++) {
-                       wprefs[(j - 1)/2][k]=Integer.parseInt(tempStr[k])/2-1; //size of n+ space
+                       mprefs[(j - 1)/2][k]=Integer.parseInt(tempStr[k])/2-1; //size of n+ space
                        //System.out.printf(" " + wprefs[(j - 1)/2][k]);
                    }
                    //System.out.println();
@@ -70,7 +70,7 @@ public class main {
                if (fileLines[i].startsWith(Integer.toString(j) + ": ")) {
                    String [] tempStr = fileLines[i].substring(fileLines[i].lastIndexOf(":")+2).split(" ");
                    for (int k=0 ; k<n ; k++) {
-                       mprefs[j/2-1][k]=(Integer.parseInt(tempStr[k])-1)/2; //size of n+ space
+                       wprefs[j/2-1][k]=(Integer.parseInt(tempStr[k])-1)/2; //size of n+ space
                    }
                    j=j+2;
                }
@@ -114,14 +114,18 @@ public class main {
                if (guy<0) break;
                int nextGirlInMPrefs = propose[guy];
                while (nextGirlInMPrefs<n){
+                   System.out.printf(mNames[guy] + " proposes to ");
                    int womanHeWantsNow = mprefs[guy][nextGirlInMPrefs];
+                   System.out.printf(wNames[womanHeWantsNow]);
                    if (wMatches[womanHeWantsNow]==-1) {
+                       System.out.printf(" and she is single.\n");
                        mMatches[guy] = womanHeWantsNow;
                        wMatches[womanHeWantsNow] = guy;
                        unmatched.pop();
                        break;
                    }else if(invertedWprefs[guy][womanHeWantsNow] < invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]) {
-                       System.out.println(womanHeWantsNow + " prefers " + guy + " over " + invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]);
+                       System.out.println(" and although she is already with " + mNames[wMatches[womanHeWantsNow]]);
+                       System.out.println(" she prefers " + mNames[guy]);
                        unmatched.pop();
                        unmatched.push(wMatches[womanHeWantsNow]);
                        wMatches[invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]] = -1;
@@ -129,7 +133,7 @@ public class main {
                        mMatches[guy] = womanHeWantsNow;
                        break;
                    }else{
-
+                       System.out.println(" but she is with " + mNames[wMatches[womanHeWantsNow]] + " and she prefers him.");
                    }
                    propose[guy]++;
                    nextGirlInMPrefs = propose[guy];
