@@ -86,7 +86,7 @@ public class main {
 
            //create unmatched man list
            Stack<Integer> unmatched = new Stack();
-           for (int i=0;i<n;i++){
+           for (int i=n-1;i>=0;i--){
                unmatched.push(i);
            }
            //create table of proposed girls
@@ -140,9 +140,10 @@ public class main {
                        System.out.println(" she prefers " + mNames[guy]);
                        unmatched.pop();
                        unmatched.push(wMatches[womanHeWantsNow]);
-                       wMatches[invertedWprefs[wMatches[womanHeWantsNow]][womanHeWantsNow]] = -1;
+                       mMatches[wMatches[womanHeWantsNow]]=-1;
                        wMatches[womanHeWantsNow] = guy;
                        mMatches[guy] = womanHeWantsNow;
+
                        propose[guy]++;
                        break;
                    }else{
