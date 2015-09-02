@@ -90,11 +90,14 @@ public class main {
                int guy = unmatched.peek();
                int nextGirlInMPrefs = propose[guy];
                while (nextGirlInMPrefs<n){
-                   System.out.printf(mNames[guy] + " proposes to ");
+                   // debug sout
+                   // System.out.printf(mNames[guy] + " proposes to ");
                    int womanHeWantsNow = mprefs[guy][nextGirlInMPrefs];
-                   System.out.printf(wNames[womanHeWantsNow]);
+                   // debug sout
+                   // System.out.printf(wNames[womanHeWantsNow]);
                    if (wMatches[womanHeWantsNow]==-1) {
-                       System.out.printf(" and she is single.\n");
+                       // debug sout
+                       // System.out.printf(" and she is single.\n");
                        mMatches[guy] = womanHeWantsNow;
                        wMatches[womanHeWantsNow] = guy;
                        unmatched.pop();
@@ -109,10 +112,12 @@ public class main {
                        if (wprefs[womanHeWantsNow][i]==wMatches[womanHeWantsNow])
                            womansCurrBfPr = i;
                    }
-                   System.out.printf(" " + womansNewguysPr + " " +womansCurrBfPr);
+                   // debug sout
+                   // System.out.printf(" " + womansNewguysPr + " " +womansCurrBfPr);
                    if(womansNewguysPr < womansCurrBfPr) {
-                       System.out.println(" and although she is already with " + mNames[wMatches[womanHeWantsNow]]);
-                       System.out.println(" she prefers " + mNames[guy]);
+                       // debug sout
+                       // System.out.println(" and although she is already with " + mNames[wMatches[womanHeWantsNow]]);
+                       // System.out.println(" she prefers " + mNames[guy]);
                        unmatched.pop();
                        unmatched.push(wMatches[womanHeWantsNow]);
                        mMatches[wMatches[womanHeWantsNow]]=-1;
@@ -121,7 +126,8 @@ public class main {
                        propose[guy]++;
                        break;
                    }else{
-                       System.out.println(" but she is with " + mNames[wMatches[womanHeWantsNow]] + " and she prefers him.");
+                       // debug sout
+                       // System.out.println(" but she is with " + mNames[wMatches[womanHeWantsNow]] + " and she prefers him.");
                        propose[guy]++;
                        nextGirlInMPrefs = propose[guy];
                    }
