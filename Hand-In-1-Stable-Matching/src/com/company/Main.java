@@ -13,8 +13,9 @@ public class Main {
 
             // Parsing of fileinput - args[0]
             String[] input = FileParser.ReadFile(args[0]);
-            // Calling Gale Shapley's Stable Matching algorithm
-            GaleShapley.StableMatcher(input);
+            GaleShapley gs = Transformer.Transformation(input);
+
+            gs.StableMatcher();
 
             System.out.println("\n");
             System.out.println("Stable Matching complete!");
