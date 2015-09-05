@@ -12,10 +12,12 @@ class GaleShapley {
     Integer[] propose;
     Integer[] mMatches;
     Integer[] wMatches;
+
     public String[] mNames;
     public String[] wNames;
     public Integer[][] mPrefs;
     public Integer[][] wPrefs;
+    Integer[][] wPrefsInverted;
     int n;
 
     public GaleShapley(int n) {
@@ -24,6 +26,7 @@ class GaleShapley {
         wNames = new String[n];
         wPrefs = new Integer[n][n];
         mPrefs = new Integer[n][n];
+        wPrefsInverted = new Integer[n][n];
         this.n = n;
         unmatched = new Stack();
         //create table of proposed girls
@@ -56,12 +59,25 @@ class GaleShapley {
     }
 
     public void StableMatcher () throws IOException {
+        int CounterOne = 0;
+        int CounterTwo = 0;
+
+        //inversion of women prefs
+        for(int i= 0;i < n;i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                wPrefsInverted[i][wPrefs[i][j]] = j;
+            }
+        }
 
         int womansNewguysPr=-1,womansCurrBfPr=-1;
         while (!unmatched.empty()) {
+            CounterOne++;
             int guy = unmatched.peek();
             int nextGirlInMPrefs = propose[guy];
             while (nextGirlInMPrefs<n){
+                CounterOne++;
                 // debug sout
                 // System.out.printf(mNames[guy] + " proposes to ");
                 int womanHeWantsNow = mPrefs[guy][nextGirlInMPrefs];
@@ -76,14 +92,29 @@ class GaleShapley {
                     propose[guy]++;
                     break;
                 }
-                for (int i=0;i<n;i++){ //find the woman's preference of this guy
+
+               /* for (int i=0;i<n;i++){ //find the woman's preference of this guy
+                    CounterTwo++;
                     if (wPrefs[womanHeWantsNow][i]==guy)
-                        womansNewguysPr = i;
-                }
-                for (int i=0;i<n;i++){ //find the woman's preference of this guy
+                    {
+                        womansNewguysPr = wPrefs[womanHeWantsNow][guy];
+                       // break;
+                    }
+                }*/
+
+                //find the woman's preference of this guy
+                womansNewguysPr = wPrefsInverted[womanHeWantsNow][guy];
+                //find the woman's preference of this guy
+                womansCurrBfPr = wPrefsInverted[womanHeWantsNow][wMatches[womanHeWantsNow]];
+
+                /*for (int i=0;i<n;i++){ //find the woman's preference of this guy
+                    CounterTwo++;
                     if (wPrefs[womanHeWantsNow][i]==wMatches[womanHeWantsNow])
+                    {
                         womansCurrBfPr = i;
-                }
+                       // break;
+                    }
+                }*/
                 // debug sout
                 // System.out.printf(" " + womansNewguysPr + " " +womansCurrBfPr);
                 if(womansNewguysPr < womansCurrBfPr) {
