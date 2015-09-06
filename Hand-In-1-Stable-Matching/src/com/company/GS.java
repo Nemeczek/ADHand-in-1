@@ -59,10 +59,6 @@ class GaleShapley {
     }
 
     public void StableMatcher () throws IOException {
-        int CounterOne = 0;
-        int CounterTwo = 0;
-
-        //inversion of women prefs
         for(int i= 0;i < n;i++)
         {
             for (int j = 0; j < n; j++)
@@ -73,19 +69,11 @@ class GaleShapley {
 
         int womansNewguysPr=-1,womansCurrBfPr=-1;
         while (!unmatched.empty()) {
-            CounterOne++;
             int guy = unmatched.peek();
             int nextGirlInMPrefs = propose[guy];
             while (nextGirlInMPrefs<n){
-                CounterOne++;
-                // debug sout
-                // System.out.printf(mNames[guy] + " proposes to ");
                 int womanHeWantsNow = mPrefs[guy][nextGirlInMPrefs];
-                // debug sout
-                // System.out.printf(wNames[womanHeWantsNow]);
                 if (wMatches[womanHeWantsNow]==-1) {
-                    // debug sout
-                    // System.out.printf(" and she is single.\n");
                     mMatches[guy] = womanHeWantsNow;
                     wMatches[womanHeWantsNow] = guy;
                     unmatched.pop();
@@ -93,34 +81,10 @@ class GaleShapley {
                     break;
                 }
 
-               /* for (int i=0;i<n;i++){ //find the woman's preference of this guy
-                    CounterTwo++;
-                    if (wPrefs[womanHeWantsNow][i]==guy)
-                    {
-                        womansNewguysPr = wPrefs[womanHeWantsNow][guy];
-                       // break;
-                    }
-                }*/
-
-                //find the woman's preference of this guy
                 womansNewguysPr = wPrefsInverted[womanHeWantsNow][guy];
-                //find the woman's preference of this guy
                 womansCurrBfPr = wPrefsInverted[womanHeWantsNow][wMatches[womanHeWantsNow]];
 
-                /*for (int i=0;i<n;i++){ //find the woman's preference of this guy
-                    CounterTwo++;
-                    if (wPrefs[womanHeWantsNow][i]==wMatches[womanHeWantsNow])
-                    {
-                        womansCurrBfPr = i;
-                       // break;
-                    }
-                }*/
-                // debug sout
-                // System.out.printf(" " + womansNewguysPr + " " +womansCurrBfPr);
                 if(womansNewguysPr < womansCurrBfPr) {
-                    // debug sout
-                    // System.out.println(" and although she is already with " + mNames[wMatches[womanHeWantsNow]]);
-                    // System.out.println(" she prefers " + mNames[guy]);
                     unmatched.pop();
                     unmatched.push(wMatches[womanHeWantsNow]);
                     mMatches[wMatches[womanHeWantsNow]]=-1;
@@ -129,8 +93,6 @@ class GaleShapley {
                     propose[guy]++;
                     break;
                 }else{
-                    // debug sout
-                    // System.out.println(" but she is with " + mNames[wMatches[womanHeWantsNow]] + " and she prefers him.");
                     propose[guy]++;
                     nextGirlInMPrefs = propose[guy];
                 }
